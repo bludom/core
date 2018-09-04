@@ -58,7 +58,7 @@ func TemperatureGetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(temperature))
+	w.Write(temperature)
 
 }
 

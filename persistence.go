@@ -35,10 +35,13 @@ func get(id int) ( result []byte, err error ) {
 
 	defer db.Close()
 	if err := db.View(func(tx *bolt.Tx) error{
-		result = tx.Bucket([]byte("temperature")).Get([]byte(fmt.Sprintf("%d", id)))
+		dbresult := tx.Bucket([]byte("temperature")).Get([]byte(fmt.Sprintf("%d", id)))
+		result = make([]byte, len(dbresult))
+		copy(result, dbresult)
 		return nil
 	}); err != nil {
 		panic(err)
 	}
+
 	return result, nil
 }
