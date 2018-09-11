@@ -19,7 +19,7 @@ var get func(int) ( []byte, error)
 
 func main() {
 
-	conn, err := NewBoltClient()
+	conn, err := NewInfluxClient()
 	if err != nil {
 		panic(err)
 	}
