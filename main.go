@@ -8,12 +8,25 @@ import (
 	"net/http"
 )
 
+//Temperature Code it the only documention you need.
 type Temperature struct {
 	ID int
 	Temperature float32
 }
 
+var save func(Temperature) error
+var get func(int) ( []byte, error)
+
 func main() {
+
+	conn, err := NewBoltClient()
+	if err != nil {
+		panic(err)
+	}
+
+	save = conn.save
+	get = conn.get
+
 	r := mux.NewRouter()
 	r.HandleFunc("/temperature", TemperaturePutHandler).Methods("PUT", "POST")
 	r.HandleFunc("/temperature/{id}", TemperatureGetHandler).Methods("GET")

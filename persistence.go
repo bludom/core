@@ -5,14 +5,24 @@ import (
 	bolt "go.etcd.io/bbolt"
 )
 
-func save(temp Temperature) error {
+//BoltClient ...
+type BoltClient struct {
+	*bolt.DB
+}
 
+// NewBoltClient ...
+func NewBoltClient() ( *BoltClient, error ) {
 	db, err := bolt.Open("temperature.db", 0600, nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	defer db.Close()
-	if err := db.Update(func(tx *bolt.Tx) error{
+
+	return &BoltClient{db}, nil
+}
+
+func (c *BoltClient) save(temp Temperature) error {
+	
+	if err := c.Update(func(tx *bolt.Tx) error{
 		tempBucket, err := tx.CreateBucketIfNotExists([]byte("temperature"))
 		if err != nil {
 			return err
@@ -26,15 +36,9 @@ func save(temp Temperature) error {
 	return nil
 }
 
-func get(id int) ( result []byte, err error ) {
+func (c *BoltClient) get(id int) ( result []byte, err error ) {
 
-	db, err := bolt.Open("temperature.db", 0600, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	defer db.Close()
-	if err := db.View(func(tx *bolt.Tx) error{
+	if err := c.View(func(tx *bolt.Tx) error{
 		dbresult := tx.Bucket([]byte("temperature")).Get([]byte(fmt.Sprintf("%d", id)))
 		result = make([]byte, len(dbresult))
 		copy(result, dbresult)
