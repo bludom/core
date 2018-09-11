@@ -59,12 +59,12 @@ func (c *InfluxClient) save(temp Temperature) error {
 
 func (c *InfluxClient) get(id int) ( result []byte, err error ) {
 
-	res, err := queryDB(c, fmt.Sprintf("SELECT \"id\"::%d",id))
+	res, err := queryDB(c, fmt.Sprintf("SELECT \"temperature\"::field FROM \"test\" WHERE \"id\" = %d",id))
 	if err != nil {
 		return nil, err
 	}
 
-	result = []byte(fmt.Sprintf("%v", res))
+	result = []byte(fmt.Sprintf("%+v", res[0]))
 
 	return result, nil
 }
