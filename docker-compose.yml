@@ -3,7 +3,7 @@ version: '2'
 services:
 
   core:
-    image: bludom/core:latest
+    image: bludom/core:$ARCH
     restart: always
     ports:
       - "8080:8080"
