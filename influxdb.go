@@ -1,10 +1,11 @@
 package main
 
 import (
-	client "github.com/influxdata/influxdb/client/v2"
-	"time"
 	"fmt"
 	"strconv"
+	"time"
+
+	client "github.com/influxdata/influxdb/client/v2"
 )
 
 //InfluxClient ...
@@ -13,9 +14,9 @@ type InfluxClient struct {
 }
 
 // NewInfluxClient ...
-func NewInfluxClient() ( *InfluxClient, error ) {
+func NewInfluxClient() (*InfluxClient, error) {
 	c, err := client.NewHTTPClient(client.HTTPConfig{
-		Addr:     "http://localhost:8086",
+		Addr: "http://gomano.de:8086/write?db=talk",
 	})
 
 	if err != nil {
@@ -36,13 +37,17 @@ func (c *InfluxClient) save(temp Temperature) error {
 		panic(err)
 	}
 
-		// Create a point and add to batch
-	tags := map[string]string{"measurement": "temp", "id": strconv.Itoa(temp.ID)}
-	fields := map[string]interface{}{
-		"temperature":   temp.Temperature,
+	// Create a point and add to batch
+	tags := map[string]string{
+		"host":        temp.Device,
+		"core":        strconv.Itoa(temp.Core),
 	}
 
-	pt, err := client.NewPoint("temperature", tags, fields, time.Now())
+	fields := map[string]interface{}{
+		"value": temp.Temp,
+	}
+
+	pt, err := client.NewPoint("temperatur", tags, fields, time.Now())
 	if err != nil {
 		return err
 	}
@@ -53,13 +58,13 @@ func (c *InfluxClient) save(temp Temperature) error {
 	if err := c.Write(bp); err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
-func (c *InfluxClient) get(id int) ( result []byte, err error ) {
+func (c *InfluxClient) get(id int) (result []byte, err error) {
 
-	res, err := queryDB(c, fmt.Sprintf("SELECT \"temperature\"::field FROM \"test\" WHERE \"id\" = %d",id))
+	res, err := queryDB(c, fmt.Sprintf("SELECT \"temperature\"::field FROM \"test\" WHERE \"id\" = %d", id))
 	if err != nil {
 		return nil, err
 	}

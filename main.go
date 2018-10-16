@@ -10,8 +10,9 @@ import (
 
 //Temperature Code it the only documention you need.
 type Temperature struct {
-	ID int
-	Temperature float32
+	Device string `json:"device"`
+	Core int `json:"core"`
+	Temp float32 `json:"temp"`
 }
 
 var save func(Temperature) error

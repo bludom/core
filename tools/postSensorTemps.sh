@@ -2,10 +2,13 @@
 
 SERVER="localhost:8080/temperature"
 
+example=curl -i -X POST 'http://gomano.de:8086/write?db=talk' --data-binary 'temperatur,host=arbeitslaptop value=32.0'
+
+
 putTemperature() {
     local ID=$1
     local TEMP=$2
-    curl -s -X PUT $SERVER -d "{\"ID\":$ID,\"Temperature\":$TEMP}"
+    curl -s -X PUT $SERVER -d "{\"device\" \"$(hostname)\": ,\"core\":$ID,\"temp\":$TEMP}"
 }
 
 checkTemperature() {
