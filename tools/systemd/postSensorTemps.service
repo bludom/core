@@ -1,0 +1,9 @@
+[Unit]
+Description=Sends temp to core on 8080
+
+[Service]
+Type=simple
+ExecStart=/root/core/tools/bludom-daemon.sh
+
+[Install]
+WantedBy=multi-user.target
