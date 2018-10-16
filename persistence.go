@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-
 	bolt "go.etcd.io/bbolt"
 )
 

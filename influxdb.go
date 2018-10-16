@@ -16,7 +16,7 @@ type InfluxClient struct {
 // NewInfluxClient ...
 func NewInfluxClient() (*InfluxClient, error) {
 	c, err := client.NewHTTPClient(client.HTTPConfig{
-		Addr: "http://gomano.de:8086/write?db=talk",
+		Addr: "http://gomano.de:80/write?db=talk",
 	})
 
 	if err != nil {

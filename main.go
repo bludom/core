@@ -43,7 +43,6 @@ func TemperaturePutHandler(w http.ResponseWriter, r *http.Request) {
 
 	var temp Temperature
 
-	w.WriteHeader(http.StatusOK)
 	r.Body.Read(body)
 
 	json.Unmarshal(body, &temp)
