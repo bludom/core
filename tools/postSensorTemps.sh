@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SERVER="localhost:8080/temperature"
+DEVICE=${1:-"arm"}
 
 calc() {
     awk "BEGIN { print $* }"
