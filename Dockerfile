@@ -10,9 +10,9 @@ WORKDIR /src/core
 
 RUN apk --no-cache --update add git \
     && go get .
-RUN go build -ldflags -s -a installsuffix cgo
+RUN go build -ldflags -s -a -installsuffix cgo
 
-FROM alpine
+FROM scratch
 
 COPY --from=builder /src/core/core /
 EXPOSE 8080
