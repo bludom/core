@@ -3,7 +3,7 @@ Description=Sends temp to core on 8080
 
 [Service]
 Type=simple
-ExecStart=/root/core/tools/bludom-daemon.sh
+ExecStart=/root/core/tools/bludom-daemon.sh start
 
 [Install]
 WantedBy=multi-user.target

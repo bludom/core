@@ -22,7 +22,9 @@ logMaxSize=1024   # 1mb
 runInterval=5 # In seconds
 
 doCommands() {
+    echo -n "Sending temp... "
     postSensorTemps
+    echo "done"
 }
 
 myPid=`echo $$`
