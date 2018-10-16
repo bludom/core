@@ -4,6 +4,7 @@ ENV GOPATH=/
 ENV GOOS=linux
 ENV CGO_ENABLED=0
 ENV GOARCH=arm
+ENV GOARM=6
 
 COPY . /src/core
 WORKDIR /src/core
@@ -16,4 +17,4 @@ FROM scratch
 
 COPY --from=builder /src/core/core /
 EXPOSE 8080
-CMD /core
+ENTRYPOINT [ "/core" ]
