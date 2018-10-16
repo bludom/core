@@ -1,7 +1,6 @@
 FROM golang:alpine as builder
 
-RUN apk --no-cache --update add git \
-    && go get .
+RUN apk --no-cache --update add git
 
 ENV GOPATH=/
 ENV GOOS=linux
@@ -10,7 +9,10 @@ ENV GOARCH=arm
 ENV GOARM=6
 WORKDIR /src/core
 
+
 COPY . /src/core
+RUN go get .
+
 RUN go build -ldflags -s -a -installsuffix cgo
 
 FROM scratch
