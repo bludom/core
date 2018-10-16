@@ -19,38 +19,16 @@ logFile="$logDir/$daemonName.log"
 # Log maxsize in KB
 logMaxSize=1024   # 1mb
 
-runInterval=60 # In seconds
+runInterval=5 # In seconds
 
 doCommands() {
-    echo "Send temperature to localhost:8080"
     postSensorTemps
 }
 
 myPid=`echo $$`
 
-setupDaemon() {
-  # Make sure that the directories work.
-  if [ ! -d "$pidDir" ]; then
-    mkdir "$pidDir"
-  fi
-  if [ ! -d "$logDir" ]; then
-    mkdir "$logDir"
-  fi
-  if [ ! -f "$logFile" ]; then
-    touch "$logFile"
-  else
-    # Check to see if we need to rotate the logs.
-    size=$((`ls -l "$logFile" | cut -d " " -f 8`/1024))
-    if [[ $size -gt $logMaxSize ]]; then
-      mv $logFile "$logFile.old"
-      touch "$logFile"
-    fi
-  fi
-}
-
 startDaemon() {
   # Start the daemon.
-  setupDaemon # Make sure the directories are there.
   if [[ `checkDaemon` = 1 ]]; then
     echo " * \033[31;5;148mError\033[39m: $daemonName is already running."
     exit 1
