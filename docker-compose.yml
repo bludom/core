@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+
+  core:
+    image: bludom/core:latest
+    restart: always
+    ports:
+      - "8080:8080"
