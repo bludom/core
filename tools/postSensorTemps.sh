@@ -10,7 +10,7 @@ calc() {
 putTemperature() {
     local ID=$1
     local TEMP=$2
-    curl -s -X PUT $SERVER -d "{\"device\" \"$(hostname)\": ,\"core\":$ID,\"temp\":$TEMP}"
+    curl -s -X PUT $SERVER -d "{\"device\": \"$(hostname)\",\"core\":$ID,\"temp\":$TEMP}"
 }
 
 checkTemperature() {
